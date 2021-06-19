@@ -1,3 +1,5 @@
+local createMultiContextConsumer = require(script.createMultiContextConsumer)
+local createUseContext = require(script.createUseContext)
 local createUseEffect = require(script.createUseEffect)
 local createUseState = require(script.createUseState)
 
@@ -5,21 +7,25 @@ local Hooks = {}
 
 local function createHooks(component)
 	return {
+		useContext = createUseContext(component),
 		useEffect = createUseEffect(component),
 		useState = createUseState(component),
 	}
 end
 
 function Hooks.new(roact)
+	local MultiContextConsumer = createMultiContextConsumer(roact)
+
 	return function(render, name)
 		assert(typeof(render) == "function", "Hooked components must be functions.")
 
 		local classComponent = roact.Component:extend(name or debug.info(render, "n"))
 
 		function classComponent:init()
+			self.contexts = nil
+			self.effectDependencies = {}
 			self.effects = {}
 			self.unmountEffects = {}
-			self.effectDependencies = {}
 
 			self.hooks = createHooks(self)
 		end
@@ -83,7 +89,17 @@ function Hooks.new(roact)
 		end
 
 		function classComponent:render()
-			return render(self.props, self.hooks)
+			if self.contexts == nil then
+				return render(self.props, self.hooks)
+			else
+				return roact.createElement(MultiContextConsumer, {
+					contexts = self.contexts,
+					render = function(contexts)
+						self.mostRecentContexts = contexts
+						return render(self.props, self.hooks)
+					end,
+				})
+			end
 		end
 
 		return classComponent
