@@ -9,15 +9,13 @@ local hook = Hooks.new(Roact)
 
 -- Because of the way hooks work, this could fail even though it's the same as
 -- useState.story.lua
-local function useTwoCounters(hooks)
-	local counter1, setCounter1 = hooks.useState(1)
-	local counter2, setCounter2 = hooks.useState(10)
-
-	return counter1, counter2, setCounter1, setCounter2
+local function useStateButCooler(hooks, default)
+	return hooks.useState(default)
 end
 
 local function Counter(_props, hooks)
-	local counter1, counter2, setCounter1, setCounter2 = useTwoCounters(hooks)
+	local counter1, setCounter1 = useStateButCooler(hooks, 5)
+	local counter2, setCounter2 = useStateButCooler(hooks, 10)
 
 	return e("Frame", {
 		BackgroundTransparency = 1,

@@ -1,19 +1,22 @@
-local function createUseContext(component)
+local function createUseContext(component, useEffect, useState)
+	-- HACK: I'd like to just use the values from the consumers directly.
+	-- However, we don't know what contexts to listen to until `useContext` is called.
+	-- Thus, we do this insanely unstable method for doing it. :)
+	local fakeConsumer = setmetatable({}, {
+		__index = component,
+	})
+
 	return function(context)
-		if component.contexts == nil then
-			component.contexts = {}
-		end
+		context.Consumer.init(fakeConsumer)
 
-		component.contexts[context] = true
+        local contextEntry = fakeConsumer.contextEntry
+        local value, setValue = useState(contextEntry.value)
 
-		-- HACK: I'd like to just use the values from the consumers directly.
-		-- However, we don't know what contexts to listen to until `useContext` is called.
-		local contextEntry = component:__getContext(context.key)
-		if contextEntry == nil then
-			return contextEntry.value
-		else
-			return context.defaultValue
-		end
+        useEffect(function()
+            return contextEntry.onUpdate:subscribe(setValue)
+        end, {})
+
+        return value
 	end
 end
 

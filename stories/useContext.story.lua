@@ -18,6 +18,12 @@ local function Consumer(_props, hooks)
 		BackgroundTransparency = 1,
 		Size = UDim2.fromScale(1, 1),
 	}, {
+		UIListLayout = e("UIListLayout", {
+			FillDirection = Enum.FillDirection.Vertical,
+			Padding = UDim.new(0, 5),
+			SortOrder = Enum.SortOrder.LayoutOrder,
+		}),
+
 		Counters = e("TextLabel", {
 			BackgroundTransparency = 1,
 			Font = Enum.Font.Code,
