@@ -32,7 +32,12 @@ function Hooks.new(roact)
 		end
 
 		function classComponent:runEffects()
-			for index, effectData in ipairs(self.effects) do
+			for index = 1, self.hookCounter do
+				local effectData = self.effects[index]
+				if effectData == nil then
+					continue
+				end
+
 				local effect, dependsOn = unpack(effectData)
 
 				if dependsOn ~= nil then
@@ -68,7 +73,7 @@ function Hooks.new(roact)
 		end
 
 		function classComponent:willUnmount()
-			for index = 1, #self.effects do
+			for index = 1, self.hookCounter do
 				local unmountEffect = self.unmountEffects[index]
 
 				if unmountEffect ~= nil then
