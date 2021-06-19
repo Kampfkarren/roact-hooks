@@ -1,12 +1,14 @@
 local createUseContext = require(script.createUseContext)
 local createUseEffect = require(script.createUseEffect)
 local createUseState = require(script.createUseState)
+local createUseValue = require(script.createUseValue)
 
 local Hooks = {}
 
 local function createHooks(component)
 	local useEffect = createUseEffect(component)
 	local useState = createUseState(component)
+	local useValue = createUseValue(component)
 
 	local useContext = createUseContext(component, useEffect, useState)
 
@@ -14,6 +16,7 @@ local function createHooks(component)
 		useContext = useContext,
 		useEffect = useEffect,
 		useState = useState,
+		useValue = useValue,
 	}
 end
 

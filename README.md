@@ -59,6 +59,11 @@ You can also pass in a list of dependencies to `useEffect`. If passed, then only
 
 Returns the value of the [context](https://roblox.github.io/roact/advanced/context/).
 
+### useValue
+`useValue(value: T) -> { value: T }`
+
+Similar to [useRef in React](https://reactjs.org/docs/hooks-reference.html#useref). Creates a table that you can mutate without re-rendering the component every time. Think of it like a class variable (`self.something = 1` vs. `self:setState({ something = 1 })`).
+
 ## Rules of Hooks
 The rules of roact-hooks are the same as [those found in React](https://reactjs.org/docs/hooks-rules.html).
 
