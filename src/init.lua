@@ -1,3 +1,4 @@
+local createUseCallback = require(script.createUseCallback)
 local createUseContext = require(script.createUseContext)
 local createUseEffect = require(script.createUseEffect)
 local createUseMemo = require(script.createUseMemo)
@@ -14,7 +15,10 @@ local function createHooks(component)
 	local useContext = createUseContext(component, useEffect, useState)
 	local useMemo = createUseMemo(useValue)
 
+	local useCallback = createUseCallback(useMemo)
+
 	return {
+		useCallback = useCallback,
 		useContext = useContext,
 		useEffect = useEffect,
 		useMemo = useMemo,

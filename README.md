@@ -64,6 +64,13 @@ Returns the value of the [context](https://roblox.github.io/roact/advanced/conte
 
 Similar to [useRef in React](https://reactjs.org/docs/hooks-reference.html#useref). Creates a table that you can mutate without re-rendering the component every time. Think of it like a class variable (`self.something = 1` vs. `self:setState({ something = 1 })`).
 
+### useCallback
+`useCallback<F: (...args: any[]) -> any>(callback: F, dependencies: any[]): F`
+
+Returns a [memoized](https://en.wikipedia.org/wiki/Memoization) callback.
+
+`useCallback(callback, dependencies)` is equivalent to `useMemo(function() return callback end, dependencies)`.
+
 ### useMemo
 `useMemo(createValue: () -> T, dependencies: any[]): T`
 
