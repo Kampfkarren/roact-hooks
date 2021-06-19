@@ -9,14 +9,14 @@ local function createUseContext(component, useEffect, useState)
 	return function(context)
 		context.Consumer.init(fakeConsumer)
 
-        local contextEntry = fakeConsumer.contextEntry
-        local value, setValue = useState(contextEntry.value)
+		local contextEntry = fakeConsumer.contextEntry
+		local value, setValue = useState(contextEntry.value)
 
-        useEffect(function()
-            return contextEntry.onUpdate:subscribe(setValue)
-        end, {})
+		useEffect(function()
+			return contextEntry.onUpdate:subscribe(setValue)
+		end, {})
 
-        return value
+		return value
 	end
 end
 
