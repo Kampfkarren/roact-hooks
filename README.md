@@ -55,7 +55,10 @@ This callback function can return a destructor. When the component unmounts, thi
 You can also pass in a list of dependencies to `useEffect`. If passed, then only when those dependencies change will the callback function be re-ran.
 
 ## Rules of Hooks
-The rules of roact-hooks are not quite the same as the ones in React. You can, for instance, call a hook in a conditional or a loop, since internally a counter is not used. Whether or not you *should* is another question, but it should technically work!
+The rules of roact-hooks are similar to [those found in React](https://reactjs.org/docs/hooks-rules.html).
+
+### Don't call hooks conditionally or in loops.
+Call all hooks from the top level of your function. Do not use them in loops or conditions.
 
 ### Only call hooks from Roact functions.
 
