@@ -65,7 +65,7 @@ local function PrintingButton(_props, hooks)
 	})
 end
 
-PrintingButton = hook(PrintingButton, "PrintingButton")
+PrintingButton = hook(PrintingButton)
 
 return function(target)
 	local handle = Roact.mount(e(PrintingButton), target, "Component")

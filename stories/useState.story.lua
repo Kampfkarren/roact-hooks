@@ -59,7 +59,7 @@ local function Counter(_props, hooks)
 	})
 end
 
-Counter = hook(Counter, "Counter")
+Counter = hook(Counter)
 
 return function(target)
 	local handle = Roact.mount(e(Counter), target, "Counter")
