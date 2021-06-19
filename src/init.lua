@@ -1,3 +1,4 @@
+local createUseBinding = require(script.createUseBinding)
 local createUseCallback = require(script.createUseCallback)
 local createUseContext = require(script.createUseContext)
 local createUseEffect = require(script.createUseEffect)
@@ -7,17 +8,19 @@ local createUseValue = require(script.createUseValue)
 
 local Hooks = {}
 
-local function createHooks(component)
+local function createHooks(roact, component)
 	local useEffect = createUseEffect(component)
 	local useState = createUseState(component)
 	local useValue = createUseValue(component)
 
+	local useBinding = createUseBinding(roact, useValue)
 	local useContext = createUseContext(component, useEffect, useState)
 	local useMemo = createUseMemo(useValue)
 
 	local useCallback = createUseCallback(useMemo)
 
 	return {
+		useBinding = useBinding,
 		useCallback = useCallback,
 		useContext = useContext,
 		useEffect = useEffect,
@@ -38,7 +41,7 @@ function Hooks.new(roact)
 			self.effects = {}
 			self.unmountEffects = {}
 
-			self.hooks = createHooks(self)
+			self.hooks = createHooks(roact, self)
 		end
 
 		function classComponent:runEffects()

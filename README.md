@@ -80,6 +80,13 @@ Returns a [memoized](https://en.wikipedia.org/wiki/Memoization) value.
 
 The function passed to `useMemo` runs during rendering, so don't perform any side effects.
 
+### useBinding
+`useBinding(defaultValue: T) -> RoactBinding<T>, (newValue: T) -> void`
+
+Returns a [memoized](https://en.wikipedia.org/wiki/Memoization) [binding](https://roblox.github.io/roact/advanced/bindings-and-refs/#bindings).
+
+These can then be used just like normal bindings in Roact.
+
 ## Rules of Hooks
 The rules of roact-hooks are the same as [those found in React](https://reactjs.org/docs/hooks-rules.html).
 
