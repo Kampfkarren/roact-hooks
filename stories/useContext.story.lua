@@ -5,17 +5,14 @@ local Roact = require(ReplicatedStorage.Roact)
 
 local e = Roact.createElement
 
+local CounterContext1 = Roact.createContext()
+local CounterContext2 = Roact.createContext()
+
 local hook = Hooks.new(Roact)
 
--- Because of the way hooks work, this could fail even though it's the same as
--- useState.story.lua
-local function useStateButCooler(hooks, default)
-	return hooks.useState(default)
-end
-
-local function Counter(_props, hooks)
-	local counter1, setCounter1 = useStateButCooler(hooks, 5)
-	local counter2, setCounter2 = useStateButCooler(hooks, 10)
+local function Consumer(_props, hooks)
+	local counter1 = hooks.useContext(CounterContext1)
+	local counter2 = hooks.useContext(CounterContext2)
 
 	return e("Frame", {
 		BackgroundTransparency = 1,
@@ -32,7 +29,7 @@ local function Counter(_props, hooks)
 			Font = Enum.Font.Code,
 			LayoutOrder = 1,
 			Size = UDim2.new(1, 0, 0, 38),
-			Text = counter1 .. "/" .. counter2,
+			Text = counter1.counter .. "/" .. counter2.counter,
 			TextColor3 = Color3.new(0, 1, 0),
 			TextSize = 32,
 		}),
@@ -46,7 +43,7 @@ local function Counter(_props, hooks)
 			TextColor3 = Color3.new(1, 1, 1),
 			TextScaled = true,
 			[Roact.Event.Activated] = function()
-				setCounter1(counter1 + 1)
+				counter1.increment()
 			end,
 		}),
 
@@ -59,16 +56,42 @@ local function Counter(_props, hooks)
 			TextColor3 = Color3.new(1, 1, 1),
 			TextScaled = true,
 			[Roact.Event.Activated] = function()
-				setCounter2(counter2 + 1)
+				counter2.increment()
 			end,
 		}),
 	})
 end
 
-Counter = hook(Counter)
+local function App(_props, hooks)
+	local counter1, setCounter1 = hooks.useState(5)
+	local counter2, setCounter2 = hooks.useState(10)
+
+	return e(CounterContext1.Provider, {
+		value = {
+			counter = counter1,
+			increment = function()
+				setCounter1(counter1 + 1)
+			end,
+		},
+	}, {
+		e(CounterContext2.Provider, {
+			value = {
+				counter = counter2,
+				increment = function()
+					setCounter2(counter2 + 1)
+				end,
+			},
+		}, {
+			Consumer = e(Consumer),
+		}),
+	})
+end
+
+App = hook(App)
+Consumer = hook(Consumer)
 
 return function(target)
-	local handle = Roact.mount(e(Counter), target, "Counter")
+	local handle = Roact.mount(e(App), target, "Component")
 
 	return function()
 		Roact.unmount(handle)

@@ -54,8 +54,13 @@ This callback function can return a destructor. When the component unmounts, thi
 
 You can also pass in a list of dependencies to `useEffect`. If passed, then only when those dependencies change will the callback function be re-ran.
 
+### useContext
+`useContext(context: RoactContext<T>) -> T`
+
+Returns the value of the [context](https://roblox.github.io/roact/advanced/context/).
+
 ## Rules of Hooks
-The rules of roact-hooks are similar to [those found in React](https://reactjs.org/docs/hooks-rules.html).
+The rules of roact-hooks are the same as [those found in React](https://reactjs.org/docs/hooks-rules.html).
 
 ### Don't call hooks conditionally or in loops.
 Call all hooks from the top level of your function. Do not use them in loops or conditions.
@@ -65,7 +70,3 @@ Call all hooks from the top level of your function. Do not use them in loops or 
 You can only call hooks from:
 - Roact function components
 - Custom hooks (a function that begins with the word `use`)
-
-### Only call one hook per line.
-
-This is a roact-hooks specific inclusion. This is necessary due to the implementation of roact-hooks, and how it separates calls from each other--it checks the function that called it and the line number. That means two uses of `useState` or `useEffect` on one line will be confused for each other. This limitation can be lifted if a column attribute is added to `debug.info`.

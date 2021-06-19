@@ -1,9 +1,8 @@
 local function createUseState(component)
 	return function(defaultValue)
-		-- TODO: This won't work if you have multiple useState on the same line.
-		-- That's kind of funny.
-		local identity, line = debug.info(2, "fl")
-		local value = component.state[identity] and component.state[identity][line]
+		component.hookCounter += 1
+		local hookCount = component.hookCounter
+		local value = component.state[hookCount]
 
 		-- TODO: This won't work if you explicitly set the state to nil.
 		if value == nil then
@@ -11,18 +10,8 @@ local function createUseState(component)
 		end
 
 		return value, function(newValue)
-			local newStateForIdentity = {}
-
-			if component.state[identity] ~= nil then
-				for key, otherValue in pairs(component.state[identity]) do
-					newStateForIdentity[key] = otherValue
-				end
-			end
-
-			newStateForIdentity[line] = newValue
-
 			component:setState({
-				[identity] = newStateForIdentity,
+				[hookCount] = newValue,
 			})
 		end
 	end

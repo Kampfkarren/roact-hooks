@@ -1,12 +1,19 @@
+local createUseContext = require(script.createUseContext)
 local createUseEffect = require(script.createUseEffect)
 local createUseState = require(script.createUseState)
 
 local Hooks = {}
 
 local function createHooks(component)
+	local useEffect = createUseEffect(component)
+	local useState = createUseState(component)
+
+	local useContext = createUseContext(component, useEffect, useState)
+
 	return {
-		useEffect = createUseEffect(component),
-		useState = createUseState(component),
+		useContext = useContext,
+		useEffect = useEffect,
+		useState = useState,
 	}
 end
 
@@ -17,52 +24,38 @@ function Hooks.new(roact)
 		local classComponent = roact.Component:extend(name or debug.info(render, "n"))
 
 		function classComponent:init()
+			self.effectDependencies = {}
 			self.effects = {}
 			self.unmountEffects = {}
-			self.effectDependencies = {}
 
 			self.hooks = createHooks(self)
 		end
 
 		function classComponent:runEffects()
-			for identity, effects in pairs(self.effects) do
-				local identityDependencies = self.effectDependencies[identity]
-				if identityDependencies == nil then
-					identityDependencies = {}
-					self.effectDependencies[identity] = identityDependencies
-				end
+			for index, effectData in ipairs(self.effects) do
+				local effect, dependsOn = unpack(effectData)
 
-				for line, effectData in pairs(effects) do
-					local effect, dependsOn = unpack(effectData)
+				if dependsOn ~= nil then
+					local lastDependencies = self.effectDependencies[index]
+					if lastDependencies ~= nil then
+						local anythingChanged = false
 
-					if dependsOn ~= nil then
-						local lastDependencies = identityDependencies[line]
-						if lastDependencies ~= nil then
-							local anythingChanged = false
-
-							for index = 1, select("#", unpack(dependsOn)) do
-								if lastDependencies[index] ~= dependsOn[index] then
-									anythingChanged = true
-									break
-								end
-							end
-
-							if not anythingChanged then
-								continue
+						for dependencyIndex = 1, select("#", unpack(dependsOn)) do
+							if lastDependencies[dependencyIndex] ~= dependsOn[dependencyIndex] then
+								anythingChanged = true
+								break
 							end
 						end
 
-						identityDependencies[line] = dependsOn
+						if not anythingChanged then
+							continue
+						end
 					end
 
-					local cleanup = effect()
-
-					if self.unmountEffects[identity] == nil then
-						self.unmountEffects[identity] = {}
-					end
-
-					self.unmountEffects[identity][line] = cleanup
+					self.effectDependencies[index] = dependsOn
 				end
+
+				self.unmountEffects[index] = effect()
 			end
 		end
 
@@ -75,14 +68,14 @@ function Hooks.new(roact)
 		end
 
 		function classComponent:willUnmount()
-			for _, unmountEffects in pairs(self.unmountEffects) do
-				for _, unmountEffect in pairs(unmountEffects) do
-					unmountEffect()
-				end
+			for index = 1, #self.effects do
+				self.unmountEffects[index]()
 			end
 		end
 
 		function classComponent:render()
+			self.hookCounter = 0
+
 			return render(self.props, self.hooks)
 		end
 
