@@ -64,6 +64,15 @@ Returns the value of the [context](https://roblox.github.io/roact/advanced/conte
 
 Similar to [useRef in React](https://reactjs.org/docs/hooks-reference.html#useref). Creates a table that you can mutate without re-rendering the component every time. Think of it like a class variable (`self.something = 1` vs. `self:setState({ something = 1 })`).
 
+### useMemo
+`useMemo(createValue: () -> T, dependencies: any[]): T`
+
+Returns a [memoized](https://en.wikipedia.org/wiki/Memoization) value.
+
+`useMemo` will only recalculate the inner value when the dependencies have changed.
+
+The function passed to `useMemo` runs during rendering, so don't perform any side effects.
+
 ## Rules of Hooks
 The rules of roact-hooks are the same as [those found in React](https://reactjs.org/docs/hooks-rules.html).
 
