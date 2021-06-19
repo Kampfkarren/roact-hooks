@@ -69,7 +69,11 @@ function Hooks.new(roact)
 
 		function classComponent:willUnmount()
 			for index = 1, #self.effects do
-				self.unmountEffects[index]()
+				local unmountEffect = self.unmountEffects[index]
+
+				if unmountEffect ~= nil then
+					unmountEffect()
+				end
 			end
 		end
 
