@@ -1,0 +1,20 @@
+{
+  "name": "roact-hooks",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "Hooks": {
+        "$path": "src"
+      },
+
+      "Roact": {
+        "$path": "vendor/roact"
+      },
+
+      "Stories": {
+        "$path": "stories"
+      }
+    }
+  }
+}
