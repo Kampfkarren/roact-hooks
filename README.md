@@ -25,8 +25,18 @@ local function Example(props, hooks)
 end
 
 -- This returns a component that you can call `Roact.createElement` with
-Example = Hooks.new(Roact)(Example, "Example")
+Example = Hooks.new(Roact)(Example)
 ```
+
+## API
+### Hooks.new
+```
+Hooks.new(Roact: Roact) -> (render: (props, hooks) -> RoactComponent | nil, name?: string) -> RoactComponent)
+```
+
+It is required you pass in the Roact you are using, since you can't combine multiple versions of Roact together.
+
+Returns a function that can be used to create a new Roact component with hooks. `name` refers to the name used in debugging. If it is not passed, it'll use the function name of what was passed in. For instance, `Hooks.new(Roact)(Component)` will have the component name `"Component"`.
 
 ## Implemented Hooks
 
