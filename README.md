@@ -54,6 +54,11 @@ This callback function can return a destructor. When the component unmounts, thi
 
 You can also pass in a list of dependencies to `useEffect`. If passed, then only when those dependencies change will the callback function be re-ran.
 
+### useContext
+`useContext(context: RoactContext<T>) -> T`
+
+Returns the value of the [context](https://roblox.github.io/roact/advanced/context/).
+
 ## Rules of Hooks
 The rules of roact-hooks are the same as [those found in React](https://reactjs.org/docs/hooks-rules.html).
 
