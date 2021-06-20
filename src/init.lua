@@ -3,6 +3,7 @@ local createUseCallback = require(script.createUseCallback)
 local createUseContext = require(script.createUseContext)
 local createUseEffect = require(script.createUseEffect)
 local createUseMemo = require(script.createUseMemo)
+local createUseReducer = require(script.createUseReducer)
 local createUseState = require(script.createUseState)
 local createUseValue = require(script.createUseValue)
 
@@ -19,12 +20,15 @@ local function createHooks(roact, component)
 
 	local useCallback = createUseCallback(useMemo)
 
+	local useReducer = createUseReducer(useCallback, useState)
+
 	return {
 		useBinding = useBinding,
 		useCallback = useCallback,
 		useContext = useContext,
 		useEffect = useEffect,
 		useMemo = useMemo,
+		useReducer = useReducer,
 		useState = useState,
 		useValue = useValue,
 	}

@@ -87,6 +87,55 @@ Returns a [memoized](https://en.wikipedia.org/wiki/Memoization) [binding](https:
 
 These can then be used just like normal bindings in Roact.
 
+### useReducer
+`useReducer(reducer: (state: T, action: A), initialState: T) -> (T, (action: A) -> void)`
+
+An alternative to `useState` that uses a reducer rather than state directly. If you’re familiar with Rodux, you already know how this works.
+
+```lua
+local initialState = { count = 0 }
+
+local function reducer(state, action)
+	if action.type == "increment" then
+		return {
+			count = state.count + 1,
+		}
+	elseif action.type == "decrement" then
+		return {
+			count = state.count - 1,
+		}
+	else
+		error("Unknown type: " .. tostring(action.type))
+	end
+end
+
+local function Counter(_props, hooks)
+	local state, dispatch = hooks.useReducer(reducer, initialState)
+
+	return e(Frame, {}, {
+		Counter = e(Text, {
+			text = state.count,
+		}),
+
+		Increment = e(Button, {
+			onClick = function()
+				dispatch({
+					type = "increment",
+				})
+			end,
+		}),
+
+		Decrement = e(Button, {
+			onClick = function()
+				dispatch({
+					type = "decrement",
+				})
+			end,
+		}),
+	})
+end
+```
+
 ## Rules of Hooks
 The rules of roact-hooks are the same as [those found in React](https://reactjs.org/docs/hooks-rules.html).
 
