@@ -9,6 +9,8 @@ local function extractValue(valueOrCallback)
 end
 
 local function createUseState(component)
+	local setValues = {}
+
 	return function(defaultValue)
 		component.hookCounter += 1
 		local hookCount = component.hookCounter
@@ -20,17 +22,24 @@ local function createUseState(component)
 			value = nil
 		end
 
-		return value, function(newValue)
-			newValue = extractValue(newValue)
+		local setValue = setValues[hookCount]
+		if setValue == nil then
+			setValue = function(newValue)
+				newValue = extractValue(newValue)
 
-			if newValue == nil then
-				newValue = NONE
+				if newValue == nil then
+					newValue = NONE
+				end
+
+				component:setState({
+					[hookCount] = newValue,
+				})
 			end
 
-			component:setState({
-				[hookCount] = newValue,
-			})
+			setValues[hookCount] = setValue
 		end
+
+		return value, setValue
 	end
 end
 
