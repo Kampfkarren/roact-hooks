@@ -17,7 +17,10 @@ local function Stranger(props, _hooks)
 	})
 end
 
-Stranger = Hooks.new(Roact)(Stranger, nil, defaultProps)
+Stranger = Hooks.new(Roact)(Stranger, {
+	name = "OverridenComponentName",
+	defaultProps = defaultProps,
+})
 
 return function(target)
 	local handle = Roact.mount(e(Stranger), target, "Stranger")
