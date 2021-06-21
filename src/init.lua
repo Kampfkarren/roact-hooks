@@ -35,12 +35,16 @@ local function createHooks(roact, component)
 end
 
 function Hooks.new(roact)
-	return function(render, name, defaultProps)
+	return function(render, options)
 		assert(typeof(render) == "function", "Hooked components must be functions.")
 
-		local classComponent = roact.Component:extend(name or debug.info(render, "n"))
+		if options == nil then
+			options = {}
+		end
 
-		classComponent.defaultProps = defaultProps
+		local classComponent = roact.Component:extend(options.name or debug.info(render, "n"))
+
+		classComponent.defaultProps = options.defaultProps
 
 		function classComponent:init()
 			self.effectDependencies = {}
