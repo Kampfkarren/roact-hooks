@@ -31,7 +31,10 @@ Example = Hooks.new(Roact)(Example)
 ## API
 ### Hooks.new
 ```
-Hooks.new(Roact: Roact) -> (render: (props, hooks) -> RoactComponent | nil, options?: Dictionary<string, any>) -> RoactComponent)
+Hooks.new(Roact: Roact) -> (render: (props, hooks) -> RoactComponent | nil, options?: {
+	name?: string,
+	defaultProps?: Map<string, any>,
+}) -> RoactComponent)
 ```
 
 It is required you pass in the Roact you are using, since you can't combine multiple versions of Roact together.
