@@ -8,8 +8,8 @@ local function createUseMemo(useValue)
 			-- Defers calling of `createValue()` unless it is necessary.
 			needToRecalculate = true
 		else
-			for index = 1, select("#", dependencies) do
-				if dependencies[index] ~= currentValue.value.dependencies[index] then
+			for index, dependency in pairs(dependencies) do
+				if dependency ~= currentValue.value.dependencies[index] then
 					needToRecalculate = true
 					break
 				end
