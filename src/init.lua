@@ -68,8 +68,8 @@ function Hooks.new(roact)
 					if lastDependencies ~= nil then
 						local anythingChanged = false
 
-						for dependencyIndex = 1, select("#", unpack(dependsOn)) do
-							if lastDependencies[dependencyIndex] ~= dependsOn[dependencyIndex] then
+						for dependencyIndex, dependency in pairs(dependsOn) do
+							if lastDependencies[dependencyIndex] ~= dependency then
 								anythingChanged = true
 								break
 							end
