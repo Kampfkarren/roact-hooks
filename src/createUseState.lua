@@ -1,8 +1,8 @@
 local NONE = {}
 
-local function extractValue(valueOrCallback)
+local function extractValue(valueOrCallback, currentValue)
 	if type(valueOrCallback) == "function" then
-		return valueOrCallback()
+		return valueOrCallback(currentValue)
 	else
 		return valueOrCallback
 	end
@@ -17,7 +17,7 @@ local function createUseState(component)
 		local value = component.state[hookCount]
 
 		if value == nil then
-			value = extractValue(defaultValue)
+			value = extractValue(defaultValue, nil)
 		elseif value == NONE then
 			value = nil
 		end
@@ -25,7 +25,7 @@ local function createUseState(component)
 		local setValue = setValues[hookCount]
 		if setValue == nil then
 			setValue = function(newValue)
-				newValue = extractValue(newValue)
+				newValue = extractValue(newValue, value)
 
 				if newValue == nil then
 					newValue = NONE
