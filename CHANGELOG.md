@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
-- Fixed hook dependencies not registering updates
+- Fixed hook dependencies not registering updates.
 
 ## [0.1.0]
 ### Added
