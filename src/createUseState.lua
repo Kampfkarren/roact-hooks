@@ -25,7 +25,7 @@ local function createUseState(component)
 		local setValue = setValues[hookCount]
 		if setValue == nil then
 			setValue = function(newValue)
-				newValue = extractValue(newValue, value)
+				newValue = extractValue(newValue, component.state[hookCount])
 
 				if newValue == nil then
 					newValue = NONE
