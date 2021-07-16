@@ -19,7 +19,7 @@ local function createUseMemo(useValue)
 		if needToRecalculate then
 			currentValue.value = {
 				dependencies = dependencies,
-				memoizedValue = {createValue()},
+				memoizedValue = { createValue() },
 			}
 		end
 
