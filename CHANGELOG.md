@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Fixed
 - Current state is now provided to callback function when using `useState(function)`
+- useMemo now supports tuple return values.
 
 ## [0.1.1]
 ### Fixed
