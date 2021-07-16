@@ -23,7 +23,7 @@ local function createUseMemo(useValue)
 			}
 		end
 
-		return unpack(currentValue.value.memoizedValue) or nil
+		return unpack(currentValue.value.memoizedValue)
 	end
 end
 
