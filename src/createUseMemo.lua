@@ -19,11 +19,11 @@ local function createUseMemo(useValue)
 		if needToRecalculate then
 			currentValue.value = {
 				dependencies = dependencies,
-				memoizedValue = createValue(),
+				memoizedValue = {createValue()},
 			}
 		end
 
-		return currentValue.value.memoizedValue
+		return unpack(currentValue.value.memoizedValue) or nil
 	end
 end
 
