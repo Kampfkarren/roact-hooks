@@ -45,6 +45,7 @@ function Hooks.new(roact)
 		local classComponent = roact.Component:extend(options.name or debug.info(render, "n"))
 
 		classComponent.defaultProps = options.defaultProps
+		classComponent.validateProps = options.validateProps
 
 		function classComponent:init()
 			self.effectDependencies = {}
