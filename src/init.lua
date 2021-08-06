@@ -41,8 +41,19 @@ function Hooks.new(roact)
 		if options == nil then
 			options = {}
 		end
+		
+		local componentType = options.componentType
+		local name = options.name or debug.info(render, "n")
 
-		local classComponent = roact.Component:extend(options.name or debug.info(render, "n"))
+		local classComponent
+
+		if componentType == nil or componentType == "Component" then
+			classComponent = roact.Component:extend(name)
+		elseif componentType == "PureComponent" then
+			classComponent = roact.PureComponent:extend(name)
+		else
+			error(string.format("'%s' is not a valid componentType. componentType must either be nil, 'Component', or 'PureComponent'",  tostring(componentType)))
+		end
 
 		classComponent.defaultProps = options.defaultProps
 		classComponent.validateProps = options.validateProps

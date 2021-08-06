@@ -34,7 +34,8 @@ Example = Hooks.new(Roact)(Example)
 Hooks.new(Roact: Roact) -> (render: (props, hooks) -> RoactComponent | nil, options?: {
 	name?: string,
 	defaultProps?: Map<any, any>,
-	validateProps?: (props) -> (false, message: string) | true
+	componentType?: string,
+	validateProps?: (props) -> (false, message: string) | true,
 }) -> RoactComponent)
 ```
 
