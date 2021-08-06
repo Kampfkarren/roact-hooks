@@ -52,7 +52,7 @@ function Hooks.new(roact)
 		elseif componentType == "PureComponent" then
 			classComponent = roact.PureComponent:extend(name)
 		else
-			error(string.format("'%s' is not a valid componentType.", componentType))
+			error(string.format("'%s' is not a valid componentType. componentType must either be nil, 'Component', or 'PureComponent'",  tostring(componentType)))
 		end
 
 		classComponent.defaultProps = options.defaultProps
