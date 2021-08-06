@@ -9,6 +9,12 @@ local createUseValue = require(script.createUseValue)
 
 local Hooks = {}
 
+local DEFAULT_COMPONENT_TYPE = "Component"
+local VALID_COMPONENT_TYPES = {
+	["Component"] = true,
+	["PureComponent"] = true
+}
+
 local function createHooks(roact, component)
 	local useEffect = createUseEffect(component)
 	local useState = createUseState(component)
@@ -41,11 +47,25 @@ function Hooks.new(roact)
 		if options == nil then
 			options = {}
 		end
+		
+		local componentType = options.componentType
 
-		local classComponent = roact.Component:extend(options.name or debug.info(render, "n"))
+		if componentType then
+			assert(VALID_COMPONENT_TYPES[componentType] ~= nil, string.format("'%s' is not a valid componentType.", componentType))
+		else
+			componentType = DEFAULT_COMPONENT_TYPE
+		end
+
+		local classComponent = roact[componentType]:extend(options.name or debug.info(render, "n"))
 
 		classComponent.defaultProps = options.defaultProps
 		classComponent.validateProps = options.validateProps
+		
+		if options.shouldUpdate then
+			assert(componentType ~= "PureComponent", "'shouldUpdate' cannot be assigned if the component is a PureComponent")
+
+			classComponent.shouldUpdate = options.shouldUpdate
+		end
 
 		function classComponent:init()
 			self.effectDependencies = {}
