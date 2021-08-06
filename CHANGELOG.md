@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Added validateProps component API option for hooked components. `validateProps(props) -> (false, message: string) | true`
+- Added componentType component API option for hooked components. `componentType?: string`. Accepted strings are "Component" and "PureComponent".
 
 ### Fixed
 - Current state is now provided to callback function when using `useState(function)`
