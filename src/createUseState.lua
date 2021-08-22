@@ -22,8 +22,8 @@ local function createUseState(component)
 			value = nil
 		end
 		
-		table.insert(component.state, value)
-
+		component.state[hookCount] = value
+		
 		local setValue = setValues[hookCount]
 		if setValue == nil then
 			setValue = function(newValue)
