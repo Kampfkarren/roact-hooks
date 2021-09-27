@@ -59,6 +59,7 @@ function Hooks.new(roact)
 		classComponent.validateProps = options.validateProps
 
 		function classComponent:init()
+			self.defaultStateValues = {}
 			self.effectDependencies = {}
 			self.effects = {}
 			self.unmountEffects = {}

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Changed
 - `useEffect` now call its unmount function when its dependencies change, just like React hooks.
+- `useState` will now cache default values, meaning `useState(math.random)` will no longer give a new default value every time.
+- `useState` with a default parameter will now call the function without parameters, rather than with 1 nil parameter. This caused problems with `useState(math.random)`, as `math.random()` is valid, but `math.random(nil)` is not.
+
+### Fixed
+- `useState` will now properly pass in default values when giving a callback to the set function, rather than passing in nil.
 
 ## [0.2.0]
 ### Added

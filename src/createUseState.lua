@@ -17,7 +17,23 @@ local function createUseState(component)
 		local value = component.state[hookCount]
 
 		if value == nil then
-			value = extractValue(defaultValue, nil)
+			local storedDefaultValue = component.defaultStateValues[hookCount]
+			if storedDefaultValue == NONE then
+				value = nil
+			elseif storedDefaultValue ~= nil then
+				value = storedDefaultValue
+			elseif type(defaultValue) == "function" then
+				value = defaultValue()
+
+				if value == nil then
+					component.defaultStateValues[hookCount] = NONE
+				else
+					component.defaultStateValues[hookCount] = value
+				end
+			else
+				value = defaultValue
+				component.defaultStateValues[hookCount] = value
+			end
 		elseif value == NONE then
 			value = nil
 		end
@@ -25,7 +41,17 @@ local function createUseState(component)
 		local setValue = setValues[hookCount]
 		if setValue == nil then
 			setValue = function(newValue)
-				newValue = extractValue(newValue, component.state[hookCount])
+				local currentValue = component.state[hookCount]
+
+				if currentValue == nil then
+					currentValue = component.defaultStateValues[hookCount]
+				end
+
+				if currentValue == NONE then
+					currentValue = nil
+				end
+
+				newValue = extractValue(newValue, currentValue)
 
 				if newValue == nil then
 					newValue = NONE
