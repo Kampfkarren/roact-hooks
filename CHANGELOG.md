@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.3.0]
 ### Changed
 - `useEffect` now call its unmount function when its dependencies change, just like React hooks.
 - `useState` will now cache default values, meaning `useState(math.random)` will no longer give a new default value every time.
