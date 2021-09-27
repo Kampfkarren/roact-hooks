@@ -15,9 +15,9 @@ local function PrintingButton(_props, hooks)
 		print("current counter is", counter)
 
 		return function()
-			print("goodbyeeee")
+			print("the counter used to be", counter)
 		end
-	end)
+	end, { counter })
 
 	hooks.useEffect(function()
 		print("loner counter is", lonerCounter)

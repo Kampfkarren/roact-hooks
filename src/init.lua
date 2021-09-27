@@ -41,7 +41,7 @@ function Hooks.new(roact)
 		if options == nil then
 			options = {}
 		end
-		
+
 		local componentType = options.componentType
 		local name = options.name or debug.info(render, "n")
 
@@ -93,6 +93,11 @@ function Hooks.new(roact)
 					end
 
 					self.effectDependencies[index] = dependsOn
+				end
+
+				local unmountEffect = self.unmountEffects[index]
+				if unmountEffect ~= nil then
+					unmountEffect()
 				end
 
 				self.unmountEffects[index] = effect()
