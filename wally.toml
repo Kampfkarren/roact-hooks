@@ -1,0 +1,8 @@
+[package]
+name = "kampfkarren/roact-hooks"
+description = "An implementation of hooks in Roact"
+version = "0.3.0"
+license = "MPL-2.0"
+authors = ["Kampfkarren"]
+realm = "shared"
+registry = "https://github.com/upliftgames/wally-index"
