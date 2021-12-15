@@ -10,11 +10,13 @@ local function createUseContext(component, useEffect, useState)
 		context.Consumer.init(fakeConsumer)
 
 		local contextEntry = fakeConsumer.contextEntry
-		local value, setValue = useState(contextEntry.value)
+		local value, setValue = useState(if contextEntry then contextEntry.value else nil)
 
 		useEffect(function()
-			return contextEntry.onUpdate:subscribe(setValue)
-		end, {})
+			if contextEntry then
+				return contextEntry.onUpdate:subscribe(setValue)
+			end
+		end, { contextEntry })
 
 		return value
 	end
