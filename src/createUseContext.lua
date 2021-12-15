@@ -14,6 +14,10 @@ local function createUseContext(component, useEffect, useState)
 
 		useEffect(function()
 			if contextEntry then
+				if value ~= contextEntry.value then
+					setValue(contextEntry.value)
+				end
+				
 				return contextEntry.onUpdate:subscribe(setValue)
 			end
 		end, { contextEntry })
