@@ -10,7 +10,7 @@ local function createUseContext(component, useEffect, useState)
 		context.Consumer.init(fakeConsumer)
 
 		local contextEntry = fakeConsumer.contextEntry
-		local value, setValue = useState(if contextEntry then contextEntry.value else nil)
+		local value, setValue = useState(if contextEntry ~= nil then contextEntry.value else nil)
 
 		useEffect(function()
 			if contextEntry then
