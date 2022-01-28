@@ -23,6 +23,7 @@ local function createHooks(roact, component)
 	local useReducer = createUseReducer(useCallback, useState)
 
 	return {
+		Roact = roact,
 		useBinding = useBinding,
 		useCallback = useCallback,
 		useContext = useContext,
