@@ -147,6 +147,21 @@ local function Counter(_props, hooks)
 end
 ```
 
+### Roact
+Roact is also provided in the hooks argument. This is useful if custom hooks need direct access to Roact.
+```lua
+-- useCustomHook.lua
+local function useCustomHook(hooks)
+	local Roact = hooks.Roact
+end
+
+-- Example.lua
+local function Example(props, hooks)
+	local example = useCustomHook(hooks)
+	return nil
+end
+```
+
 ## Rules of Hooks
 The rules of roact-hooks are the same as [those found in React](https://reactjs.org/docs/hooks-rules.html).
 

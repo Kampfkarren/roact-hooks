@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Fixed
 - Fix useContext for uninitialized and/or changing contexts (#26)
+- Provide Roact instance in hooks argument (#28)
 
 ## [0.3.0]
 ### Changed
