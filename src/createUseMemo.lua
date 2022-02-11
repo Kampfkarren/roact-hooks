@@ -7,7 +7,7 @@ local function createUseMemo(useValue)
 		if currentValue.value == nil then
 			-- Defers calling of `createValue()` unless it is necessary.
 			needToRecalculate = true
-		elseif needToRecalculate == false then
+		elseif not needToRecalculate then
 			for index, dependency in pairs(dependencies) do
 				if dependency ~= currentValue.value.dependencies[index] then
 					needToRecalculate = true
