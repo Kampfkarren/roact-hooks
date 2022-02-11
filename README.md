@@ -91,6 +91,8 @@ Returns a [memoized](https://en.wikipedia.org/wiki/Memoization) value.
 
 The function passed to `useMemo` runs during rendering, so don't perform any side effects.
 
+If no array is provided, a new value will be computed on every render.
+
 ### useBinding
 `useBinding(defaultValue: T) -> RoactBinding<T>, (newValue: T) -> void`
 
