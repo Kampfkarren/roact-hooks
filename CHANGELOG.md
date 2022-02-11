@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Provide Roact instance in hooks argument (#28)
 
+### Changed
+- `useMemo` now computes a new value every render if no array is provided (#29)
+
 ### Fixed
 - Fix useContext for uninitialized and/or changing contexts (#26)
 
