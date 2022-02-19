@@ -16,9 +16,7 @@ local function createTest(initialState)
         return nil
     end
 
-    Test = Hooks.new(Roact)(Test)
-    test.handle = Roact.mount(e(Test))
-
+    test.handle = Roact.mount(e(Hooks.new(Roact)(Test)))
     return test
 end
 

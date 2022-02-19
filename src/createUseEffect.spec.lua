@@ -5,31 +5,29 @@ local Hooks = require(ReplicatedStorage.Hooks)
 
 local e = Roact.createElement
 
-local function createTest(initialState, initialDeps)
+local function createTest(initialState, initialDependencies)
     local test = {
         useEffectRuns = 0,
     }
 
     local function Test(_, hooks)
         test.state, test.setState = hooks.useState(initialState)
-        test.deps, test.setDeps = hooks.useState(initialDeps)
+        test.dependencies, test.setDependencies = hooks.useState(initialDependencies)
 
         hooks.useEffect(function()
             test.useEffectRuns += 1 
-        end, test.deps)
+        end, test.dependencies)
 
         return nil
     end
 
-    Test = Hooks.new(Roact)(Test)
-    test.handle = Roact.mount(e(Test))
-
+    test.handle = Roact.mount(e(Hooks.new(Roact)(Test)))
     return test
 end
 
 return function()
     describe("useEffect", function()
-        describe("when deps are nil", function()
+        describe("when dependencies are nil", function()
             it("should run the effect after each rerender", function()
                 local test = createTest(1)
                 expect(test.useEffectRuns).to.equal(1)
@@ -44,7 +42,7 @@ return function()
             end)
         end)
 
-        describe("when deps are empty", function()
+        describe("when dependencies are empty", function()
             it("should not run the effect after each rerender", function()
                 local test = createTest(1, {})
                 expect(test.useEffectRuns).to.equal(1)
@@ -55,7 +53,7 @@ return function()
             end)
         end)
 
-        describe("when deps are constant", function()
+        describe("when dependencies are constant", function()
             it("should not run the effect after each rerender", function()
                 local test = createTest(1, { 1 })
                 expect(test.useEffectRuns).to.equal(1)
@@ -66,12 +64,12 @@ return function()
             end)
         end)
 
-        describe("when deps are changing", function()
-            it("should run the effect when deps change", function()
+        describe("when dependencies are changing", function()
+            it("should run the effect when dependencies change", function()
                 local test = createTest(1, { 1 })
                 expect(test.useEffectRuns).to.equal(1)
 
-                test.setDeps({ 2 })
+                test.setDependencies({ 2 })
                 task.wait(0.1)
                 expect(test.useEffectRuns).to.equal(2)
 
@@ -79,7 +77,7 @@ return function()
                 task.wait(0.1)
                 expect(test.useEffectRuns).to.equal(2)
 
-                test.setDeps({ 3 })
+                test.setDependencies({ 3 })
                 task.wait(0.1)
                 expect(test.useEffectRuns).to.equal(3)
             end)
