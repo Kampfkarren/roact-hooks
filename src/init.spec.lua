@@ -1,0 +1,23 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Roact = require(ReplicatedStorage.Roact)
+local Hooks = require(ReplicatedStorage.Hooks)
+
+return function()
+    describe("Hooks", function()
+        it("should throw when component is not a function", function()
+            expect(function()
+                Hooks.new(Roact)()
+            end).to.throw("Hooked components must be functions.")
+            expect(function()
+                Hooks.new(Roact)(1)
+            end).to.throw("Hooked components must be functions.")
+            expect(function()
+                Hooks.new(Roact)("1")
+            end).to.throw("Hooked components must be functions.")
+            expect(function()
+                Hooks.new(Roact)({})
+            end).to.throw("Hooked components must be functions.")
+        end)
+    end)
+end
