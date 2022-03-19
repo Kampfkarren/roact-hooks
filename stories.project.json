@@ -12,8 +12,20 @@
         "$path": "vendor/roact"
       },
 
+      "TestEZ": {
+        "$path": "vendor/testez"
+      },
+
       "Stories": {
         "$path": "stories"
+      }
+    },
+
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "testRunner": {
+          "$path": "test/testRunner.client.lua"
+        }
       }
     }
   }
