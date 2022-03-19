@@ -81,6 +81,35 @@ return function()
                 task.wait(0.1)
                 expect(test.useEffectRuns).to.equal(3)
             end)
+
+            it("should run the effect when dependencies change to/from nil", function()
+                local test = createTest(1, { 1, 2 })
+                expect(test.useEffectRuns).to.equal(1)
+
+                test.setDependencies({ 1, nil })
+                task.wait(0.1)
+                expect(test.useEffectRuns).to.equal(2)
+
+                test.setState(2)
+                task.wait(0.1)
+                expect(test.useEffectRuns).to.equal(2)
+
+                test.setDependencies({ 1, 2 })
+                task.wait(0.1)
+                expect(test.useEffectRuns).to.equal(3)
+
+                test.setDependencies({ nil, 2 })
+                task.wait(0.1)
+                expect(test.useEffectRuns).to.equal(4)
+
+                test.setDependencies({ 1, 2 })
+                task.wait(0.1)
+                expect(test.useEffectRuns).to.equal(5)
+
+                test.setDependencies({ nil, nil })
+                task.wait(0.1)
+                expect(test.useEffectRuns).to.equal(6)
+            end)
         end)
     end)
 end
