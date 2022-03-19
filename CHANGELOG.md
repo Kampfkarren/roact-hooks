@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fix useContext for uninitialized and/or changing contexts (#26)
 - `useMemo` now computes a new value every render if no array is provided (#29)
+- Fixed `useEffect` not running when a dependency changes to nil (#32)
 
 ## [0.3.0]
 ### Changed
