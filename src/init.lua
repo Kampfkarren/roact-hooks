@@ -92,7 +92,7 @@ function Hooks.new(roact)
 							end
 						end
 
-						for _, _ in pairs(lastDependencies) do
+						for _ in pairs(lastDependencies) do
 							length -= 1
 						end
 
