@@ -81,12 +81,23 @@ function Hooks.new(roact)
 					local lastDependencies = self.effectDependencies[index]
 					if lastDependencies ~= nil then
 						local anythingChanged = false
+						local length = 0
 
 						for dependencyIndex, dependency in pairs(dependsOn) do
+							length += 1
+
 							if lastDependencies[dependencyIndex] ~= dependency then
 								anythingChanged = true
 								break
 							end
+						end
+
+						for _ in pairs(lastDependencies) do
+							length -= 1
+						end
+
+						if length ~= 0 then
+							anythingChanged = true
 						end
 
 						if not anythingChanged then
