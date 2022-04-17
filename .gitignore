@@ -1,1 +1,4 @@
 roblox.toml
+
+# Libraries don't hold lockfiles, binaries do
+wally.lock

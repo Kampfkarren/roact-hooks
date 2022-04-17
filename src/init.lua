@@ -6,6 +6,7 @@ local createUseMemo = require(script.createUseMemo)
 local createUseReducer = require(script.createUseReducer)
 local createUseState = require(script.createUseState)
 local createUseValue = require(script.createUseValue)
+local dependenciesDifferent = require(script.dependenciesDifferent)
 
 local Hooks = {}
 
@@ -53,7 +54,12 @@ function Hooks.new(roact)
 		elseif componentType == "PureComponent" then
 			classComponent = roact.PureComponent:extend(name)
 		else
-			error(string.format("'%s' is not a valid componentType. componentType must either be nil, 'Component', or 'PureComponent'",  tostring(componentType)))
+			error(
+				string.format(
+					"'%s' is not a valid componentType. componentType must either be nil, 'Component', or 'PureComponent'",
+					tostring(componentType)
+				)
+			)
 		end
 
 		classComponent.defaultProps = options.defaultProps
@@ -79,30 +85,8 @@ function Hooks.new(roact)
 
 				if dependsOn ~= nil then
 					local lastDependencies = self.effectDependencies[index]
-					if lastDependencies ~= nil then
-						local anythingChanged = false
-						local length = 0
-
-						for dependencyIndex, dependency in pairs(dependsOn) do
-							length += 1
-
-							if lastDependencies[dependencyIndex] ~= dependency then
-								anythingChanged = true
-								break
-							end
-						end
-
-						for _ in pairs(lastDependencies) do
-							length -= 1
-						end
-
-						if length ~= 0 then
-							anythingChanged = true
-						end
-
-						if not anythingChanged then
-							continue
-						end
+					if lastDependencies ~= nil and not dependenciesDifferent(dependsOn, lastDependencies) then
+						continue
 					end
 
 					self.effectDependencies[index] = dependsOn

@@ -1,7 +1,7 @@
 [package]
 name = "kampfkarren/roact-hooks"
 description = "An implementation of hooks in Roact"
-version = "0.4.0"
+version = "0.4.1"
 license = "MPL-2.0"
 authors = ["Kampfkarren"]
 realm = "shared"

@@ -1,19 +1,13 @@
+local dependenciesDifferent = require(script.Parent.dependenciesDifferent)
+
 local function createUseMemo(useValue)
 	return function(createValue, dependencies)
 		local currentValue = useValue(nil)
 
 		local needToRecalculate = dependencies == nil
 
-		if currentValue.value == nil then
-			-- Defers calling of `createValue()` unless it is necessary.
+		if currentValue.value == nil or dependenciesDifferent(dependencies, currentValue.value.dependencies) then
 			needToRecalculate = true
-		elseif not needToRecalculate then
-			for index, dependency in pairs(dependencies) do
-				if dependency ~= currentValue.value.dependencies[index] then
-					needToRecalculate = true
-					break
-				end
-			end
 		end
 
 		if needToRecalculate then
