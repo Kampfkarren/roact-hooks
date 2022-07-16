@@ -1,5 +1,9 @@
+type Destructor = () -> ()
+type EffectCallback = (() -> Destructor) | (() -> ())
+type DependencyList = { unknown }
+
 local function createUseEffect(component)
-	return function(callback, dependsOn)
+	return function(callback: EffectCallback, dependsOn: DependencyList?)
 		assert(typeof(callback) == "function", "useEffect callback is not a function")
 
 		component.hookCounter += 1
