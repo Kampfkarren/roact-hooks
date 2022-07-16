@@ -52,7 +52,7 @@ Defines default values for props to ensure props will have values even if they w
 ## Implemented Hooks
 
 ### useState
-`useState<T>(defaultValue: T | () -> T) -> (T, update: (value: T | ((prevState: T) -> T)) -> ())`
+`useState<T>(defaultValue: T | (() -> T)) -> (T, update: (value: T | ((prevState: T) -> T)) -> ())`
 
 Used to store a stateful value. Returns the current value, and a function that can be used to set the value.
 
