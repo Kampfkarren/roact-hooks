@@ -40,7 +40,7 @@ export type Hooks = typeof(createHooks())
 export type HookOptions<Props> = {
 	name: string?,
 	defaultProps: { [string]: any }?,
-	componentType: string?,
+	componentType: "Component" | "PureComponent" | nil,
 	validateProps: ((props: Props) -> (boolean, string?))?,
 	[string]: { NO_EXTRA_ARGS: never },
 }
