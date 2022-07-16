@@ -1,5 +1,5 @@
 local function createUseBinding(roact, useValue)
-	return function(defaultValue)
+	return function<T>(defaultValue: T): (any, (newValue: T) -> ())
 		return unpack(useValue({
 			roact.createBinding(defaultValue)
 		}).value)
