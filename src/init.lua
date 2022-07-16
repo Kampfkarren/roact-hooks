@@ -36,8 +36,17 @@ local function createHooks(roact, component)
 	}
 end
 
-function Hooks.new(roact)
-	return function(render, options)
+export type Hooks = typeof(createHooks())
+export type HookOptions<Props> = {
+	name: string?,
+	defaultProps: { [string]: any }?,
+	componentType: string?,
+	validateProps: ((props: Props) -> (boolean, string?))?,
+}
+export type RenderFunction<Props> = (props: Props, hooks: Hooks) -> any
+
+function Hooks.new<Props>(roact)
+	return function(render: RenderFunction<Props>, options: HookOptions<Props>?)
 		assert(typeof(render) == "function", "Hooked components must be functions.")
 
 		if options == nil then

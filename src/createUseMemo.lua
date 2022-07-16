@@ -1,7 +1,10 @@
 local dependenciesDifferent = require(script.Parent.dependenciesDifferent)
 
+type DependencyList = { unknown }
+type Function<Args..., Rets...> = (Args...) -> Rets...
+
 local function createUseMemo(useValue)
-	return function(createValue, dependencies)
+	return function<T...>(createValue: () -> T..., dependencies: DependencyList?): T...
 		local currentValue = useValue(nil)
 
 		local needToRecalculate = dependencies == nil

@@ -11,7 +11,7 @@ end
 local function createUseState(component)
 	local setValues = {}
 
-	return function(defaultValue)
+	return function<T>(defaultValue: T): (T, (newValue: T) -> ())
 		component.hookCounter += 1
 		local hookCount = component.hookCounter
 		local value = component.state[hookCount]
