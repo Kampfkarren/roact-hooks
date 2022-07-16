@@ -1,5 +1,5 @@
 type Destructor = () -> ()
-type EffectCallback = () -> Destructor?
+type EffectCallback = (() -> Destructor) | (() -> ())
 type DependencyList = { unknown }
 
 local function createUseEffect(component)
