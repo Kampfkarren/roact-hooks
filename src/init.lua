@@ -42,6 +42,7 @@ export type HookOptions<Props> = {
 	defaultProps: { [string]: any }?,
 	componentType: string?,
 	validateProps: ((props: Props) -> (boolean, string?))?,
+	[string]: { NO_EXTRA_ARGS: never },
 }
 export type RenderFunction<Props> = (props: Props, hooks: Hooks) -> any
 
