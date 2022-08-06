@@ -8,10 +8,13 @@ local function extractValue(valueOrCallback, currentValue)
 	end
 end
 
+type SetStateAction<S> = S | ((prevState: S) -> S)
+type Dispatch<T> = (value: T) -> ()
+
 local function createUseState(component)
 	local setValues = {}
 
-	return function(defaultValue)
+	return function<T>(defaultValue: T | (() -> T)): (T, Dispatch<SetStateAction<T>>)
 		component.hookCounter += 1
 		local hookCount = component.hookCounter
 		local value = component.state[hookCount]
