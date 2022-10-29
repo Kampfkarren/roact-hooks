@@ -1,4 +1,4 @@
-local function createUseContext(component, useEffect, useState)
+local function createUseContext(component, useEffect, useState, useMemo)
 	-- HACK: I'd like to just use the values from the consumers directly.
 	-- However, we don't know what contexts to listen to until `useContext` is called.
 	-- Thus, we do this insanely unstable method for doing it. :)
@@ -7,16 +7,20 @@ local function createUseContext(component, useEffect, useState)
 	})
 
 	return function(context)
-		local defaultValue
+		local defaultValue = useMemo(function()
+			local initialValue
 
-		fakeConsumer.props = {
-			render = function(value)
-				defaultValue = value
-			end,
-		}
+			fakeConsumer.props = {
+				render = function(value)
+					initialValue = value
+				end,
+			}
+
+			context.Consumer.render(fakeConsumer)
+			return initialValue
+		end, {})
 
 		context.Consumer.init(fakeConsumer)
-		context.Consumer.render(fakeConsumer)
 
 		local contextEntry = fakeConsumer.contextEntry
 		local value, setValue = useState(if contextEntry == nil then defaultValue else contextEntry.value)
