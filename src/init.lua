@@ -16,9 +16,9 @@ local function createHooks(roact, component)
 	local useValue = createUseValue(component)
 
 	local useBinding = createUseBinding(roact, useValue)
-	local useContext = createUseContext(component, useEffect, useState)
 	local useMemo = createUseMemo(useValue)
 
+	local useContext = createUseContext(component, useEffect, useState, useMemo)
 	local useCallback = createUseCallback(useMemo)
 
 	local useReducer = createUseReducer(useCallback, useState)
